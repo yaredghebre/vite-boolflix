@@ -18,7 +18,7 @@ export default {
     <main>
         <div class="container">
             <h2>Movies</h2>
-            <div class="row row-cols-5">
+            <div class="row row-cols-5 justify-content-between">
                 <div class="col" v-for="movie in store.movies" :key="movie.id">
                     <AppCard :item="movie" />
                 </div>

@@ -8,6 +8,7 @@ export default {
     data() {
         return {
             store,
+            showDetails: false
         }
     },
     methods: {
@@ -19,33 +20,45 @@ export default {
 </script>
 
 <template>
-    <div class="card">
-       <img class="card-img-top" :src="`${store.imgPath}${item.poster_path}`" alt="Card image cap">
-       <div class="card-body">
-            <h3 class="card-text">Titolo: {{ item.title }}</h3>
-            <ul>
-                <li class="card-text">Titolo Originale: {{ item.original_title }}</li>
-                <li class="card-text">Lingua: {{ item.original_language }}</li>
-                <li class="card-text">Voto: {{ item.vote_average }}</li>
-            </ul>
-       </div>
-   </div>
+    <div class="card" @mouseover="showDetails = true" @mouseleave="showDetails = false">
+      <img class="card-img-top" :src="`${store.imgPath}${item.poster_path}`" alt="Card image cap">
+      <div class="card-body" v-if="!showDetails">
+      </div>
+      <div class="card-body" v-if="showDetails">
+        <h3 class="card-title"> {{ item.title }}</h3>
+        <ul class="list-unstyled">
+          <li class="card-text"><b>Titolo Originale:</b> {{ item.original_title }}</li>
+          <li class="card-text"><b>Lingua:</b>  {{ item.original_language }}</li>
+          <li class="card-text"><b>Voto:</b>  {{ item.vote_average }}</li>
+          <li><span class="fi fi-gr"></span></li>
+        </ul>
+      </div>
+    </div>
+  </template>
+  
 
-   <div class="card">
-       <img class="card-img-top" :src="`${store.imgPath}${item.poster_path}`" alt="Card image cap">
-       <div class="card-body">
-            <h3 class="card-text">Titolo: {{ item.name }}</h3>
-            <ul>
-                <li class="card-text">Titolo Originale: {{ item.original_name }}</li>
-                <li class="card-text">Lingua: {{ item.original_language }}</li>
-                <li class="card-text">Voto: {{ item.vote_average }}</li>
-            </ul>
-       </div>
-   </div>
+<style scoped lang="scss">
+@use "../style/general.scss";
+@use "../style/partials/variables" as *;
 
-    
-</template>
+.card {
+    margin-bottom: 20px;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 
-<style>
+    .card-img-top {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    .card-body {
+        padding: 15px;
+
+        .card-text {
+            margin-bottom: 0.5rem;
+        }
+    }
+}
 
 </style>

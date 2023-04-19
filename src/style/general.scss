@@ -1,6 +1,8 @@
 @use "./partials/variables" as *;
 
 @import "bootstrap/scss/bootstrap";
+@import "/node_modules/flag-icons/css/flag-icons.min.css";
+
 
 img {
     max-width: 100%;
