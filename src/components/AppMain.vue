@@ -18,9 +18,16 @@ export default {
     <main>
         <div class="container">
             <h2>Movies</h2>
-            <div class="row row-cols-12">
-                <div class="col" v-for="card in store.movies" :key="card.id">
-                    <AppCardVue :card="card"/>
+            <div class="row row-cols-5">
+                <div class="col" v-for="movie in store.movies" :key="movie.id">
+                    <AppCard :item="movie" />
+                </div>
+            </div>
+
+            <h2>Series</h2>
+            <div class="row row-cols-5">
+                <div class="col" v-for="serie in store.series" :key="serie.id">
+                    <AppCard :item="serie"/>
                 </div>
             </div>
         </div>

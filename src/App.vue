@@ -19,32 +19,33 @@ export default {
   },
   methods: {
     searchMovie() {
-      axios.get(this.store.devKey, {
+      axios.get(this.store.apiMoviesURL, {
         params: {
           api_key: this.store.devKey,
           query: this.store.searchText
         }
       }).then(resp => {
-        this.store.apiMoviesURL = resp.data.results;
+        this.store.movies = resp.data.results;
       })
     },
     searchSeries() {
-      axios.get(this.store.devKey, {
+      axios.get(this.store.apiSeriesURL, {
         params: {
           api_key: this.store.devKey,
           query: this.store.searchText
         }
       }).then(resp => {
-        this.store.apiSeriesURL = resp.data.results;
+        this.store.series = resp.data.results;
       })
     },
     handleSearch() {
-      console.log("search");
       if(this.store.searchText === "") {
+        
       } else {
         this.searchMovie();
         this.searchSeries();
         this.store.searchText = "";
+      
       }
     }
   }
