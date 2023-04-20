@@ -8,4 +8,5 @@ export const store = reactive({
     series: [],
     imgPath: "https://image.tmdb.org/t/p/w342",
     searchText: "",
+    stars: 5
 });

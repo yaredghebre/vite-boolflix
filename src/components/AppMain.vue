@@ -16,15 +16,15 @@ export default {
 
 <template>
     <main>
-        <div class="container">
-            <h2>Movies</h2>
+        <div class="ms_container">
+            <h2 class="my-3 text-white">Movies</h2>
             <div class="row row-cols-5 justify-content-between">
                 <div class="col" v-for="movie in store.movies" :key="movie.id">
                     <AppCard :item="movie" />
                 </div>
             </div>
 
-            <h2>Series</h2>
+            <h2 class="my-3 text-white">Series</h2>
             <div class="row row-cols-5">
                 <div class="col" v-for="serie in store.series" :key="serie.id">
                     <AppCard :item="serie"/>
@@ -39,15 +39,14 @@ export default {
 @use "../style/partials/variables" as *;
 
 main {
-    padding: 20px 0;
-    background-color: lightcoral;
+    padding: 100px 0;
+    // background-color: rgba(0, 0, 0, 0.714);
+    height: 100%;
 
-    .container {
-        border: 1px solid black;
+    .ms_container {
+        margin: 50px auto;
+        width: 80%;
 
-        .col {
-            background-color: lightblue;
-        }
     }
 }
 

@@ -37,5 +37,7 @@ header {
     width: 100%;
     background-color: $primary_color;
     color: $secondary_color;
+    z-index: 100;
+    position: fixed;
 }
 </style>

@@ -54,13 +54,18 @@ export default {
 </script>
 
 <template>
-  <AppHeader title="BoolFlix" @search="handleSearch"/>
-  <AppMain />
-  <AppFooter />
+  <div class="app-wrapper">
+    <AppHeader title="BoolFlix" @search="handleSearch"/>
+    <AppMain />
+    <AppFooter />
+  </div>
 </template>
 
 <style lang="scss">
 @use "./style/general.scss";
-
+.app-wrapper {
+  // height: 100vh;
+  background-color: rgba(0, 0, 0, 0.714);
+}
 
 </style>
