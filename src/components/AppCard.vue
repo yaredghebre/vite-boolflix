@@ -27,7 +27,7 @@ export default {
             return new URL(`../assets/img/${name}.png`, import.meta.url).href
         },
 
-        searchActorsMovies(id) {
+        searchActors(id) {
             // console.log("getCast");
             axios.get(`https://api.themoviedb.org/3/movie/${id}/credits`, {
                 params: {
@@ -37,8 +37,19 @@ export default {
                 console.log(resp);
                 this.cast = resp.data.cast.slice(0, 5);
                 this.showCast = true;
+            });
+
+            axios.get(`https://api.themoviedb.org/3/tv/${id}/credits`, {
+                params: {
+                    api_key: this.store.devKey,
+                }
+            }).then(resp => {
+                console.log(resp);
+                this.cast = resp.data.cast.slice(0, 5);
+                this.showCast = true;
             })
         },
+        
         hideCast() {
             this.showCast = !this.showCast
         }
@@ -74,7 +85,7 @@ export default {
                     <p class="card-text mb-1"><b>Plot:</b> {{ item.overview }}</p>
                 </div>
 
-                <button @click="searchActorsMovies(item.id)" v-if="!showCast" type="button" class="btn btn-success my-3">Mostra Cast</button>
+                <button @click="searchActors(item.id)" v-if="!showCast" type="button" class="btn btn-success my-3">Mostra Cast</button>
                 <button @click="hideCast" v-if="showCast" type="button" class="btn btn-danger my-3">Nascondi Cast</button>
 
                 <ul v-if="showCast" class="ms_list-style">
