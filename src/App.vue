@@ -17,6 +17,7 @@ export default {
       store
     }
   },
+
   methods: {
     searchMovie() {
       axios.get(this.store.apiMoviesURL, {
@@ -26,7 +27,11 @@ export default {
         }
       }).then(resp => {
         this.store.movies = resp.data.results;
-      })
+      }).catch(error => {
+        console.log(error);
+      }).finally(() => {
+        console.log("Ricerca dei Film completata");
+      });
     },
     searchSeries() {
       axios.get(this.store.apiSeriesURL, {
@@ -36,7 +41,11 @@ export default {
         }
       }).then(resp => {
         this.store.series = resp.data.results;
-      })
+      }).catch(error => {
+        console.log(error);
+      }).finally(() => {
+        console.log("Ricerca delle Serie completata");
+      });
     },
     handleSearch() {
       if(this.store.searchText === "") {
@@ -55,7 +64,7 @@ export default {
 
 <template>
   <div class="app-wrapper">
-    <AppHeader title="BoolFlix" @search="handleSearch"/>
+    <AppHeader title="BoolFlix" @search="handleSearch" @keyup.enter="handleSearch"/> 
     <AppMain />
     <AppFooter />
   </div>

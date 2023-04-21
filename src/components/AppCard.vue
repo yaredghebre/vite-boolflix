@@ -1,4 +1,5 @@
 <script>
+import axios from "axios";
 import { store } from "../store";
 import LangFlag from 'vue-lang-code-flags';
 export default {
@@ -12,13 +13,11 @@ export default {
     data() {
         return {
             store,
+            cast: [],
+            showCast: false
         }
     },
     computed: {
-        roundVote() {
-            return Math.round(this.item.vote_average / 2)
-        },
-
         generateVote() {
             return Math.ceil(this.item.vote_average / 2)
         }
@@ -26,29 +25,61 @@ export default {
     methods: {
         getImgPath(name) {
             return new URL(`../assets/img/${name}.png`, import.meta.url).href
+        },
+
+        searchActorsMovies(id) {
+            // console.log("getCast");
+            axios.get(`https://api.themoviedb.org/3/movie/${id}/credits`, {
+                params: {
+                    api_key: this.store.devKey,
+                }
+            }).then(resp => {
+                console.log(resp);
+                this.cast = resp.data.cast.slice(0, 5);
+                this.showCast = true;
+            })
+        },
+        hideCast() {
+            this.showCast = !this.showCast
         }
+
     }
 }
 </script>
 
 <template>
     <div class="card">
+
         <div class="side-a">
-            <img class="card-img-top" :src="`${store.imgPath}${item.poster_path}`" alt="Card image cap">
+            <img v-if="item.poster_path" class="card-img-top" :src="`${store.imgPath}${item.poster_path}`"
+                alt="Card image cap">
+            <div v-else class="card-img-top error-msg">
+                <p class="text-center">Spiacente, immagine non disponibile <br> :&#40;</p>
+            </div>
         </div>
-        
+
         <div class="side-b">
             <div class="card-body bg-dark text-warning">
-                <h3 class="card-title"> {{ item.title || item.name}}</h3>
+                <h3 class="card-title"> {{ item.title || item.name }}</h3>
                 <div class="">
                     <p class="card-text mb-1"><b>Titolo Originale:</b> {{ item.original_title || item.original_name }}</p>
-                    <p class="card-text mb-1"><b>Lingua:</b> {{ item.original_language }} <lang-flag :iso="`${item.original_language}`" /> </p>
+                    <p class="card-text mb-1"><b>Lingua:</b> {{ item.original_language }} 
+                        <lang-flag :iso="`${item.original_language}`" /> </p>
                     <p class="card-text mb-1"><b>Voto:</b> {{ `${Math.floor(generateVote)}/5` }}</p>
-                    <p class="card-text mb-1"><span v-for="i in store.stars">
+                    <p class="card-text mb-1">
+                        <span v-for="i in store.stars">
                             <i :class="[(i <= generateVote) ? 'fa-solid fa-star' : 'fa-regular fa-star']"></i>
-                        </span> </p>
+                        </span>
+                    </p>
                     <p class="card-text mb-1"><b>Plot:</b> {{ item.overview }}</p>
                 </div>
+
+                <button @click="searchActorsMovies(item.id)" v-if="!showCast" type="button" class="btn btn-success my-3">Mostra Cast</button>
+                <button @click="hideCast" v-if="showCast" type="button" class="btn btn-danger my-3">Nascondi Cast</button>
+
+                <ul v-if="showCast" class="ms_list-style">
+                    <li v-for="actor in cast" :key="actor.id"> {{ actor.name }}</li>
+                </ul>
             </div>
         </div>
 
@@ -63,11 +94,13 @@ export default {
 .card {
     margin: 20px 0;
     border-radius: 4px;
-    height: 500px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.84);
+    height: 100%;
+    box-shadow: 7px 7px 7px 0 rgba(0, 0, 0, 0.84);
 
     .card-body {
-        padding: 20px 10px;
+        padding: 20px;
+        height: 100%;
+        font-size: 1.1rem;
         overflow: auto;
     }
 }
@@ -75,8 +108,16 @@ export default {
 .side-a {
     display: inline-block;
     position: relative;
+    height: 100%;
     z-index: 1;
     transition: opacity 0.5s ease-in-out;
+
+    .error-msg {
+        height: 100%;
+        font-size: 2.5rem;
+        padding: 20px;
+
+    }
 }
 
 .side-b {
@@ -89,9 +130,6 @@ export default {
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
 
-    .card-body {
-        height: 100%;
-    }
 }
 
 .card:hover .side-a {
@@ -103,4 +141,13 @@ export default {
     opacity: 1;
 }
 
+.ms_list-style {
+    list-style-type: circle;
+
+    li {
+        position: relative;
+        top: 0;
+        left: -15px;
+    }
+}
 </style>

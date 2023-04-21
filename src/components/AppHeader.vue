@@ -14,18 +14,17 @@ export default {
             store
         }
     }
-    
+
 }
 </script>
 
 <template>
-    <header class="d-flex align-items-center justify-content-between px-3 gap-4">
-        <h1>{{ title }}</h1>
+    <header class="d-flex align-items-center justify-content-between px-5 gap-4">
+        <h1><a href="">{{ title }}</a> </h1>
         <div class="input-group mb-3 d-flex justify-content-end gap-2">
-            <SearchEngine @search="$emit('search')" />
+            <SearchEngine @search="$emit('search')" @keyup.enter="$emit('search')"/>
         </div>
     </header>
-
 </template>
 
 <style scoped lang="scss">
@@ -39,5 +38,18 @@ header {
     color: $secondary_color;
     z-index: 100;
     position: fixed;
+
+    h1 {
+        text-shadow: 7px 7px 7px rgba(255, 255, 255, 0.377);
+        transition: 0.3s ease-out;
+    }
+
+    h1:hover {
+        scale: 1.2;
+
+        a:hover {
+            color: red;
+        }
+    }
 }
 </style>
