@@ -6,6 +6,7 @@ export const store = reactive({
     apiSeriesURL:"https://api.themoviedb.org/3/search/tv",
     movies: [],
     series: [],
+    genres: [],
     imgPath: "https://image.tmdb.org/t/p/w342",
     searchText: "",
     stars: 5

@@ -1,5 +1,6 @@
 <script>
 import SearchEngine from "./SearchEngine.vue";
+import SelectGenre from "./SelectGenre.vue";
 import { store } from "../store";
 
 export default {
@@ -8,7 +9,10 @@ export default {
         title: String,
     },
     emits: ["search"],
-    components: { SearchEngine },
+    components: { 
+        SearchEngine, 
+        SelectGenre
+    },
     data() {
         return {
             store
@@ -22,6 +26,7 @@ export default {
     <header class="d-flex align-items-center justify-content-between px-5 gap-4">
         <h1><a href="">{{ title }}</a> </h1>
         <div class="input-group mb-3 d-flex justify-content-end gap-2">
+            <SelectGenre @select="$emit('select')"/>
             <SearchEngine @search="$emit('search')" @keyup.enter="$emit('search')"/>
         </div>
     </header>

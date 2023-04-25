@@ -54,9 +54,9 @@ export default {
         this.searchMovie();
         this.searchSeries();
         this.store.searchText = "";
-      
       }
-    }
+    },
+
   }
 
 }
@@ -64,7 +64,7 @@ export default {
 
 <template>
   <div class="app-wrapper">
-    <AppHeader title="BoolFlix" @search="handleSearch" @keyup.enter="handleSearch"/> 
+    <AppHeader title="BoolFlix" @search="handleSearch" @keyup.enter="handleSearch" /> 
     <AppMain />
     <AppFooter />
   </div>

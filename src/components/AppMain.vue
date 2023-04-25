@@ -34,11 +34,6 @@ export default {
 }
 </script>
 
-<!-- DA IMPLEMENTARE:
- - MIGLIORARE MILESTONE 5 INSERENDO I GENERI
- - INSERIRE LE CARDS IN UNA SCROLLBAR ORIZZONTALE ANZICHE VERTICALE
- -->
-
 <template>
     <main>
         <div class="ms_container">
@@ -71,11 +66,18 @@ main {
     h2 {
         font-size: 2rem;
         text-shadow: 5px 5px 5px rgba(255, 255, 255, 0.377);
+        
     }
 
     .ms_container {
         margin: 50px auto;
         width: 80%;
+
+        .row {
+            flex-wrap: nowrap;
+            overflow-y: auto;
+
+        }
         
     }
 }
