@@ -34,18 +34,15 @@ export default {
 }
 </script>
 
+<!-- DA IMPLEMENTARE:
+ - MIGLIORARE MILESTONE 5 INSERENDO I GENERI
+ - INSERIRE LE CARDS IN UNA SCROLLBAR ORIZZONTALE ANZICHE VERTICALE
+ -->
+
 <template>
     <main>
         <div class="ms_container">
             
-            <!-- <div class="jumbotron">
-                <div class="row row-cols-1">
-                    <div class="col">
-                        <div class="poster-box"></div>
-                    </div>
-                </div>
-            </div> -->
-
             <h2 class="my-3 text-white">Movies:</h2>
             <div class="row row-cols-5">
                 <div class="col" v-for="movie in store.movies" :key="movie.id">
@@ -79,14 +76,10 @@ main {
     .ms_container {
         margin: 50px auto;
         width: 80%;
-
-        .poster-box {
-            height: 500px;
-            width: 100%;
-            border-radius: 4px;
-            background-color: lightblue;
-        }
+        
     }
 }
 
 </style>
+
+

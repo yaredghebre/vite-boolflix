@@ -14,7 +14,9 @@ export default {
         return {
             store,
             cast: [],
-            showCast: false
+            genres: [],
+            showCast: false,
+            showGenres: false
         }
     },
     computed: {
@@ -22,6 +24,7 @@ export default {
             return Math.ceil(this.item.vote_average / 2)
         }
     },
+
     methods: {
         getImgPath(name) {
             return new URL(`../assets/img/${name}.png`, import.meta.url).href
@@ -49,9 +52,37 @@ export default {
                 this.showCast = true;
             })
         },
-        
+
         hideCast() {
-            this.showCast = !this.showCast
+            this.showCast = !this.showCast;
+        },
+
+        searchGenres() {
+            // console.log("showGenres");
+            axios.get(`https://api.themoviedb.org/3/movie/${this.item.id}`, {
+                params: {
+                    api_key: this.store.devKey,
+                }
+            }).then(resp => {
+                console.log(resp);
+                this.genres = resp.data.genres;
+                this.showGenres = true;
+            });
+
+            axios.get(`https://api.themoviedb.org/3/tv/${this.item.id}`, {
+                params: {
+                    api_key: this.store.devKey,
+                }
+            }).then(resp => {
+                console.log(resp);
+                this.genres = resp.data.genres;
+                this.showGenres = true;
+            });
+
+        },
+
+        hideGenres() {
+            this.showGenres = !this.showGenres;
         }
 
     }
@@ -85,11 +116,20 @@ export default {
                     <p class="card-text mb-1"><b>Plot:</b> {{ item.overview }}</p>
                 </div>
 
-                <button @click="searchActors(item.id)" v-if="!showCast" type="button" class="btn btn-success my-3">Mostra Cast</button>
-                <button @click="hideCast" v-if="showCast" type="button" class="btn btn-danger my-3">Nascondi Cast</button>
+                <div class="card-buttons d-flex gap-1">
+                    <button @click="searchActors(item.id)" v-if="!showCast" type="button" class="btn btn-success my-3">Mostra Cast</button>
+                    <button @click="hideCast()" v-if="showCast" type="button" class="btn btn-danger my-3">Nascondi Cast</button>
+
+                    <button @click="searchGenres()" v-if="!showGenres" type="button" class="btn btn-primary my-3">Mostra Generi</button>
+                    <button @click="hideGenres()" v-if="showGenres" type="button" class="btn btn-danger my-3">Nascondi Generi</button>
+                </div>
 
                 <ul v-if="showCast" class="ms_list-style">
                     <li v-for="actor in cast" :key="actor.id"> {{ actor.name }}</li>
+                </ul>
+
+                <ul v-if="showGenres" class="ms_list-style-genres">
+                    <li v-for="genre in genres" :key="genre.name">{{ genre.name }}</li>
                 </ul>
             </div>
         </div>
@@ -107,6 +147,7 @@ export default {
     border-radius: 4px;
     height: 100%;
     box-shadow: 7px 7px 7px 0 rgba(0, 0, 0, 0.84);
+    // cursor: pointer;
 
     .card-body {
         padding: 20px;
@@ -160,5 +201,15 @@ export default {
         top: 0;
         left: -15px;
     }
+}
+
+.ms_list-style-genres {
+    list-style-type: disc;
+
+    li {
+        position: relative;
+        top: 0;
+        left: -15px;
+}
 }
 </style>
